@@ -16,10 +16,6 @@ const quotes = [
     author: "Kurt Cobain"
   },
   {
-    quote: "Whenever you feel sad, just remember that there are billions of cells in your body and all they care about is you.",
-    author: ""
-  },
-  {
     quote: "Always, always, always believe in yourself, because if you don’t, then who will, sweetie?",
     author: "Marilyn Monroe"
   },
@@ -56,7 +52,7 @@ const quotes = [
     author: "Neil Armstrong, First man"
   },
   {
-    quote: "All boundaries are conventions, waiting to be transcended",
+    quote: "All boundaries are conventions, waiting to be transcended.",
     author: "Cloud Atlas, 2012"
   }
 ];
