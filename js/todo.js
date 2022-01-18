@@ -1,61 +1,63 @@
-const toDoForm = document.getElementById("todo-form");
-const toDoList = document.getElementById("todo-list");
-const toDoInput = toDoForm.querySelector("input");
-
-const TODOS_KEY = "todos";
+const todoForm = document.querySelector('#todo-form');
+const todoList = document.querySelector('#todo-list');
+const todoInput = todoForm.querySelector('input');
 
 let toDos = [];
 
-function saveToDos() {
-  localStorage.setItem(TODOS_KEY, JSON.stringify(toDos));
+function saveTodos() {
+  localStorage.setItem('todos', JSON.stringify(toDos));
+  // 로컬스토리지는 object 인식 못함 -> stringify
 }
 
-function deleteTodo(event) {
+function deleteTodos(event) {
   const li = event.target.parentElement;
   li.remove();
-  toDos = toDos.filter(toDo => toDo.id !== parseInt(li.id));
-  saveToDos();
+
+  toDos = toDos.filter(toDo => parseInt(li.id) !== toDo.id);
+  // 삭제된 li와 아이디와 같은 아이디를 가진 object를 localStorage에서 삭제
+  saveTodos();
 }
 
-function paintToDo(newTodo) {
-  const li = document.createElement("li");
-  li.id = newTodo.id;
-  const span = document.createElement("span");
-  const btn = document.createElement("button");
+function paintTodo(newTodoObj) {
+  const li = document.createElement('li');
+  li.id = newTodoObj.id;
 
-  span.innerText = newTodo.text;
-  btn.type = "button";
-  btn.innerText = "❌";
+  const span = document.createElement('span');
+  span.textContent = newTodoObj.text;
 
-  btn.addEventListener("click", deleteTodo);
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.textContent = '❌';
+  button.addEventListener('click', deleteTodos);
 
   li.appendChild(span);
-  li.appendChild(btn);
-  toDoList.appendChild(li);
+  li.appendChild(button);
+  todoList.appendChild(li);
 }
 
-function handleToDoSubmit(event) {
+function handleTodoSubmit(event) {
   event.preventDefault();
-  const newTodo = toDoInput.value;
-  toDoInput.value = "";
+  const newTodo = todoInput.value;
+  todoInput.value = '';
 
   const newTodoObj = {
     text: newTodo,
-    id: Date.now()
+    id: Date.now() // 랜덤한 숫자
   }
 
   toDos.push(newTodoObj);
-  paintToDo(newTodoObj);
-  saveToDos();
+  paintTodo(newTodoObj);
+  saveTodos();
 }
 
-toDoForm.addEventListener("submit", handleToDoSubmit);
+todoForm.addEventListener('submit', handleTodoSubmit);
 
-const savedToDos = localStorage.getItem(TODOS_KEY);
-
-if (savedToDos) {
-  const parsedToDos = JSON.parse(savedToDos);
-  toDos = parsedToDos;
-  parsedToDos.forEach(paintToDo);
+const savedTodos = localStorage.getItem('todos');
+if (savedTodos) {
+  const parsedTodos = JSON.parse(savedTodos);
+  toDos = parsedTodos;
+  parsedTodos.forEach(paintTodo);
+  // 새로고침했을 때 화면에 안나오는 문제 해결
+  // 로컬스토리지에 저장된 todo들이 있으면
+  // string을 다시 object로 바꿔서 요소들을 하나씩 paintTodo에 돌려줘라.
 }
-

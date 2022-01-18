@@ -48,7 +48,7 @@ const quotes = [
     author: "Winnie the Pooh"
   },
   {
-    quote: "We need to fail. Wee need to fail down here so we don't fail up there.",
+    quote: "We need to fail. We need to fail down here so we don't fail up there.",
     author: "Neil Armstrong, First man"
   },
   {
